@@ -88,7 +88,7 @@ const RAW_KEYBOARD_TEMPLATE = [
 
   // row 3: tier 1 bottom / shift row (f4 - a5)
   [
-    { code: 'ShiftLeft', char: 'shift', qwertyChar: 'shift', label: 'shift', subLegend: 'oct -', width: 2.25, isModifier: true, hand: 'left' },
+    { code: 'ShiftLeft', char: 'shift', qwertyChar: 'shift', label: 'shift', width: 2.25, isModifier: true, isDisabled: true, hand: 'left' },
     { code: 'KeyZ', char: 'z', qwertyChar: 'z', width: 1, diatonicOffset: 3, hand: 'left' },
     { code: 'KeyX', char: 'x', qwertyChar: 'x', width: 1, diatonicOffset: 4, hand: 'left' },
     { code: 'KeyC', char: 'c', qwertyChar: 'c', width: 1, diatonicOffset: 5, hand: 'left' },
@@ -99,7 +99,7 @@ const RAW_KEYBOARD_TEMPLATE = [
     { code: 'Comma', char: ',', qwertyChar: ',', width: 1, diatonicOffset: 10, hand: 'right' },
     { code: 'Period', char: '.', qwertyChar: '.', width: 1, diatonicOffset: 11, hand: 'right' },
     { code: 'Slash', char: '/', qwertyChar: '/', width: 1, diatonicOffset: 12, hand: 'right' },
-    { code: 'ShiftRight', char: 'shift', qwertyChar: 'shift', label: 'shift', subLegend: 'oct +', width: 2.75, isModifier: true, hand: 'right' }
+    { code: 'ShiftRight', char: 'shift', qwertyChar: 'shift', label: 'shift', width: 2.75, isModifier: true, isDisabled: true, hand: 'right' }
   ],
 
   // row 4: sustain damper pedal
@@ -115,9 +115,9 @@ const RAW_KEYBOARD_TEMPLATE = [
   ]
 ];
 
-export function generateKeyboardRows(homePositionId = 'c4', octaveShift = 0) {
+export function generateKeyboardRows(homePositionId = 'c4', octaveShift = 0, noteShift = 0) {
   const pos = HOME_POSITIONS.find((p) => p.id === homePositionId) || HOME_POSITIONS[0];
-  const rootStep = pos.rootStep + (octaveShift * 7);
+  const rootStep = pos.rootStep + (octaveShift * 7) + noteShift;
 
   return RAW_KEYBOARD_TEMPLATE.map((row) =>
     row.map((key) => {

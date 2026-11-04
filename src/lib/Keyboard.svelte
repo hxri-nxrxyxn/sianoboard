@@ -7,28 +7,20 @@
     layout = 'colemak',
     homePosition = 'c4',
     octaveShift = 0,
+    noteShift = 0,
     showFingerGuides = true,
     disabled = false,
-    onchangeoctave
+    onchangeoctave,
+    onchangenoteshift
   } = $props();
 
   let activeKeys = $state({});
 
-  let rows = $derived(generateKeyboardRows(homePosition, octaveShift));
+  let rows = $derived(generateKeyboardRows(homePosition, octaveShift, noteShift));
   let keyByCode = $derived(new Map(rows.flat().map((k) => [k.code, k])));
 
   function pressKey(key) {
     if (!key || disabled || key.isDisabled) return;
-
-    if (key.code === 'ShiftLeft') {
-      onchangeoctave?.(-1);
-      return;
-    }
-
-    if (key.code === 'ShiftRight') {
-      onchangeoctave?.(1);
-      return;
-    }
 
     if (key.isSustainPedal || key.code === 'Space') {
       sound.setSustainPedal(true);
@@ -43,10 +35,6 @@
 
   function releaseKey(key) {
     if (!key || key.isDisabled) return;
-
-    if (key.code === 'ShiftLeft' || key.code === 'ShiftRight') {
-      return;
-    }
 
     if (key.isSustainPedal || key.code === 'Space') {
       sound.setSustainPedal(false);
@@ -70,8 +58,17 @@
     // Do not capture Escape key so it can open settings modal
     if (event.key === 'Escape' || event.code === 'Escape' || event.key === 'Esc') return;
 
-    // ShiftLeft: shift octave down (-1)
-    if (event.code === 'ShiftLeft') {
+    // ArrowUp: octave up (+1)
+    if (event.code === 'ArrowUp' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      if (!event.repeat) {
+        onchangeoctave?.(1);
+      }
+      return;
+    }
+
+    // ArrowDown: octave down (-1)
+    if (event.code === 'ArrowDown' || event.key === 'ArrowDown') {
       event.preventDefault();
       if (!event.repeat) {
         onchangeoctave?.(-1);
@@ -79,11 +76,20 @@
       return;
     }
 
-    // ShiftRight: shift octave up (+1)
-    if (event.code === 'ShiftRight') {
+    // ArrowRight: move notes to right (+1 step)
+    if (event.code === 'ArrowRight' || event.key === 'ArrowRight') {
       event.preventDefault();
       if (!event.repeat) {
-        onchangeoctave?.(1);
+        onchangenoteshift?.(1);
+      }
+      return;
+    }
+
+    // ArrowLeft: move notes to left (-1 step)
+    if (event.code === 'ArrowLeft' || event.key === 'ArrowLeft') {
+      event.preventDefault();
+      if (!event.repeat) {
+        onchangenoteshift?.(-1);
       }
       return;
     }
@@ -101,7 +107,7 @@
 
   function handleKeyUp(event) {
     if (event.key === 'Escape' || event.code === 'Escape' || event.key === 'Esc') return;
-    if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') return;
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.code)) return;
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName)) return;
 
     const matchedKey = keyByCode.get(event.code);

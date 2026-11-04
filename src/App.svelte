@@ -7,6 +7,7 @@
   let layout = $state('colemak'); // 'colemak' | 'qwerty'
   let homePosition = $state('c4'); // 'c4' | 'g4' | 'f4' | 'd4' | 'a4' | 'c3' | 'c5'
   let octaveShift = $state(0); // -2 to +2
+  let noteShift = $state(0); // -14 to +14 (adjust via arrow left/right)
   let showFingerGuides = $state(true);
   let volume = $state(0.7);
   let touchCurve = $state('normal'); // 'normal' | 'intimate' | 'concert'
@@ -48,6 +49,22 @@
     }
   }
 
+  function handleNoteShiftDelta(delta) {
+    const next = Math.max(-14, Math.min(14, noteShift + delta));
+    if (next !== noteShift) {
+      sound.stopAllVoices?.();
+      noteShift = next;
+    }
+  }
+
+  function handleSetNoteShift(val) {
+    const next = Math.max(-14, Math.min(14, val));
+    if (next !== noteShift) {
+      sound.stopAllVoices?.();
+      noteShift = next;
+    }
+  }
+
   function handleFingerGuidesChange(nextVal) {
     showFingerGuides = nextVal;
   }
@@ -84,9 +101,19 @@
             type="button"
             class="octave-badge-btn"
             onclick={() => handleSetOctave(0)}
-            title="click to reset octave to normal"
+            title="click to reset octave to normal (arrow up / down)"
           >
             oct {octaveShift > 0 ? `+${octaveShift}` : octaveShift} [reset]
+          </button>
+        {/if}
+        {#if noteShift !== 0}
+          <button
+            type="button"
+            class="octave-badge-btn"
+            onclick={() => handleSetNoteShift(0)}
+            title="click to reset note shift (arrow left / right)"
+          >
+            shift {noteShift > 0 ? `+${noteShift}` : noteShift} [reset]
           </button>
         {/if}
       </div>
@@ -105,9 +132,11 @@
       {layout}
       {homePosition}
       {octaveShift}
+      {noteShift}
       {showFingerGuides}
       disabled={isSettingsOpen}
       onchangeoctave={handleOctaveDelta}
+      onchangenoteshift={handleNoteShiftDelta}
     />
   </div>
 
@@ -116,6 +145,7 @@
       {layout}
       {homePosition}
       {octaveShift}
+      {noteShift}
       {showFingerGuides}
       {volume}
       {touchCurve}
@@ -124,6 +154,7 @@
       onlayoutchange={handleLayoutChange}
       onhomepositionchange={handleHomePositionChange}
       onoctavechange={handleSetOctave}
+      onnoteshiftchange={handleSetNoteShift}
       onfingerguideschange={handleFingerGuidesChange}
       onvolumechange={handleVolumeChange}
       ontouchchange={handleTouchChange}
