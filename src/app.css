@@ -1,0 +1,48 @@
+:root {
+  --bg-page: #000000;
+  --bg-chassis: #0d0d0d;
+  --bg-plate: #141414;
+  --border-color: #262626;
+
+  /* Strictly 3 colors: black, white, grey */
+  --key-bg: #181818;
+  --key-side: #000000;
+  --key-border: #2c2c2c;
+  --key-text: #ffffff;
+  --key-subtext: #737373;
+
+  /* Pressed state */
+  --key-active-bg: #ffffff;
+  --key-active-text: #000000;
+  --key-active-subtext: #525252;
+  --key-shadow: 0 4px 0 #000000;
+  --key-active-shadow: 0 1px 0 #000000;
+  --key-nub-color: #ffffff;
+
+  --font-family: 'JetBrains Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  text-transform: lowercase !important;
+}
+
+html, body {
+  min-height: 100vh;
+  background-color: var(--bg-page);
+  color: var(--key-text);
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+  -webkit-user-select: none;
+  overflow-x: hidden;
+}
+
+button {
+  font-family: inherit;
+  color: inherit;
+  text-transform: lowercase;
+}
