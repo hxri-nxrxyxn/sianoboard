@@ -43,12 +43,12 @@ const RAW_KEYBOARD_TEMPLATE = [
     { code: 'Digit5', char: '5', qwertyChar: '5', width: 1, diatonicOffset: 12, hand: 'left' },
     { code: 'Digit6', char: '6', qwertyChar: '6', width: 1, diatonicOffset: 13, hand: 'left' },
     { code: 'Digit7', char: '7', qwertyChar: '7', width: 1, isDisabled: true, hand: 'center' },
-    { code: 'Digit8', char: '8', qwertyChar: '8', width: 1, diatonicOffset: 15, hand: 'right' },
-    { code: 'Digit9', char: '9', qwertyChar: '9', width: 1, diatonicOffset: 16, hand: 'right' },
-    { code: 'Digit0', char: '0', qwertyChar: '0', width: 1, diatonicOffset: 17, hand: 'right' },
-    { code: 'Minus', char: '-', qwertyChar: '-', width: 1, diatonicOffset: 18, hand: 'right' },
-    { code: 'Equal', char: '=', qwertyChar: '=', width: 1, diatonicOffset: 19, hand: 'right' },
-    { code: 'Backspace', char: 'backspace', qwertyChar: 'bksp', label: 'bksp', width: 2, diatonicOffset: 20, isModifier: true, hand: 'right' }
+    { code: 'Digit8', char: '8', qwertyChar: '8', width: 1, diatonicOffset: 17, hand: 'right' },
+    { code: 'Digit9', char: '9', qwertyChar: '9', width: 1, diatonicOffset: 18, hand: 'right' },
+    { code: 'Digit0', char: '0', qwertyChar: '0', width: 1, diatonicOffset: 19, hand: 'right' },
+    { code: 'Minus', char: '-', qwertyChar: '-', width: 1, diatonicOffset: 20, hand: 'right' },
+    { code: 'Equal', char: '=', qwertyChar: '=', width: 1, diatonicOffset: 21, hand: 'right' },
+    { code: 'Backspace', char: 'backspace', qwertyChar: 'bksp', label: 'bksp', width: 2, diatonicOffset: 22, isModifier: true, hand: 'right' }
   ],
 
   // row 1: tier 1 upper / tab row (tab = c4 -> \ = b5)
@@ -60,13 +60,13 @@ const RAW_KEYBOARD_TEMPLATE = [
     { code: 'KeyR', char: 'p', qwertyChar: 'r', width: 1, diatonicOffset: 4, hand: 'left' },
     { code: 'KeyT', char: 'g', qwertyChar: 't', width: 1, diatonicOffset: 5, hand: 'left' },
     { code: 'KeyY', char: 'j', qwertyChar: 'y', width: 1, isDisabled: true, hand: 'center' },
-    { code: 'KeyU', char: 'l', qwertyChar: 'u', width: 1, diatonicOffset: 7, hand: 'right' },
-    { code: 'KeyI', char: 'u', qwertyChar: 'i', width: 1, diatonicOffset: 8, hand: 'right' },
-    { code: 'KeyO', char: 'y', qwertyChar: 'o', width: 1, diatonicOffset: 9, hand: 'right' },
-    { code: 'KeyP', char: ';', qwertyChar: 'p', width: 1, diatonicOffset: 10, hand: 'right' },
-    { code: 'BracketLeft', char: '[', qwertyChar: '[', width: 1, diatonicOffset: 11, hand: 'right' },
-    { code: 'BracketRight', char: ']', qwertyChar: ']', width: 1, diatonicOffset: 12, hand: 'right' },
-    { code: 'Backslash', char: '\\', qwertyChar: '\\', width: 1.5, diatonicOffset: 13, hand: 'right' }
+    { code: 'KeyU', char: 'l', qwertyChar: 'u', width: 1, diatonicOffset: 9, hand: 'right' },
+    { code: 'KeyI', char: 'u', qwertyChar: 'i', width: 1, diatonicOffset: 10, hand: 'right' },
+    { code: 'KeyO', char: 'y', qwertyChar: 'o', width: 1, diatonicOffset: 11, hand: 'right' },
+    { code: 'KeyP', char: ';', qwertyChar: 'p', width: 1, diatonicOffset: 12, hand: 'right' },
+    { code: 'BracketLeft', char: '[', qwertyChar: '[', width: 1, diatonicOffset: 13, hand: 'right' },
+    { code: 'BracketRight', char: ']', qwertyChar: ']', width: 1, diatonicOffset: 14, hand: 'right' },
+    { code: 'Backslash', char: '\\', qwertyChar: '\\', width: 1.5, diatonicOffset: 15, hand: 'right' }
   ],
 
   // row 2: tier 2 home / caps lock row (f5 - b6)
