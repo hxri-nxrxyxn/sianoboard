@@ -4,6 +4,7 @@
 
 export const HOME_POSITIONS = [
   { id: 'c4', label: 'c major (c4)', rootStep: 28 },
+  { id: 'middle-c', label: 'middle c position', rootStep: 24 },
   { id: 'g4', label: 'g major (g4)', rootStep: 32 },
   { id: 'f4', label: 'f major (f4)', rootStep: 31 },
   { id: 'd4', label: 'd position (d4)', rootStep: 29 },
