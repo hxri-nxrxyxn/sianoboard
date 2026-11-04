@@ -1,13 +1,19 @@
 <script>
   import Keyboard from './lib/Keyboard.svelte';
   import SettingsModal from './lib/SettingsModal.svelte';
+  import { HOME_POSITIONS } from './lib/colemakData.js';
   import { sound } from './lib/soundEngine.js';
 
   let layout = $state('colemak'); // 'colemak' | 'qwerty'
+  let homePosition = $state('c4'); // 'c4' | 'g4' | 'f4' | 'd4' | 'a4' | 'c3' | 'c5'
   let volume = $state(0.7);
   let touchCurve = $state('normal'); // 'normal' | 'intimate' | 'concert'
   let reverbOn = $state(true);
   let isSettingsOpen = $state(false);
+
+  let currentHomePositionLabel = $derived(
+    HOME_POSITIONS.find((p) => p.id === homePosition)?.label || 'c major (c4)'
+  );
 
   function handleWindowKeyDown(e) {
     if (e.key === 'Escape' || e.code === 'Escape' || e.key === 'Esc') {
@@ -18,6 +24,10 @@
 
   function handleLayoutChange(nextLayout) {
     layout = nextLayout;
+  }
+
+  function handleHomePositionChange(nextPos) {
+    homePosition = nextPos;
   }
 
   function handleVolumeChange(nextVol) {
@@ -43,7 +53,11 @@
 <main class="viewport">
   <div class="keyboard-container">
     <div class="top-bar">
-      <span class="active-badge">{layout}</span>
+      <div class="status-group">
+        <span class="active-badge">{layout}</span>
+        <span class="divider">/</span>
+        <span class="position-badge">{currentHomePositionLabel}</span>
+      </div>
       <button
         type="button"
         class="settings-btn"
@@ -57,6 +71,7 @@
 
     <Keyboard
       {layout}
+      {homePosition}
       disabled={isSettingsOpen}
     />
   </div>
@@ -64,11 +79,13 @@
   {#if isSettingsOpen}
     <SettingsModal
       {layout}
+      {homePosition}
       {volume}
       {touchCurve}
       {reverbOn}
       onclose={() => (isSettingsOpen = false)}
       onlayoutchange={handleLayoutChange}
+      onhomepositionchange={handleHomePositionChange}
       onvolumechange={handleVolumeChange}
       ontouchchange={handleTouchChange}
       onreverbchange={handleReverbChange}
@@ -102,10 +119,25 @@
     padding: 0 4px;
   }
 
-  .active-badge {
+  .status-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+
+  .active-badge {
+    color: #888888;
+    font-weight: 600;
+  }
+
+  .divider {
     color: #444444;
-    letter-spacing: 0.05em;
+  }
+
+  .position-badge {
+    color: #666666;
   }
 
   .settings-btn {

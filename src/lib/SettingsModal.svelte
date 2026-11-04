@@ -1,11 +1,15 @@
 <script>
+  import { HOME_POSITIONS } from './colemakData.js';
+
   let {
     layout = 'colemak',
+    homePosition = 'c4',
     volume = 0.7,
     touchCurve = 'normal',
     reverbOn = true,
     onclose,
     onlayoutchange,
+    onhomepositionchange,
     onvolumechange,
     ontouchchange,
     onreverbchange
@@ -15,10 +19,15 @@
 
   const SETTINGS = [
     { id: 'layout', label: 'layout' },
+    { id: 'homePosition', label: 'home position' },
     { id: 'volume', label: 'volume' },
     { id: 'touch', label: 'touch response' },
     { id: 'reverb', label: 'hall reverb' }
   ];
+
+  let currentHomePositionLabel = $derived(
+    HOME_POSITIONS.find((p) => p.id === homePosition)?.label || 'c major (c4)'
+  );
 
   function handleKeyDown(e) {
     if (e.key === 'Escape' || e.code === 'Escape' || e.key === 'Esc') {
@@ -61,17 +70,22 @@
       const next = layout === 'colemak' ? 'qwerty' : 'colemak';
       onlayoutchange?.(next);
     } else if (selectedIndex === 1) {
-      // 2. Volume
+      // 2. Home Position: c major, g major, f major, d, a minor, bass c, treble c
+      const currentIdx = HOME_POSITIONS.findIndex((p) => p.id === homePosition);
+      const nextIdx = (currentIdx + direction + HOME_POSITIONS.length) % HOME_POSITIONS.length;
+      onhomepositionchange?.(HOME_POSITIONS[nextIdx].id);
+    } else if (selectedIndex === 2) {
+      // 3. Volume
       const nextVol = Math.max(0, Math.min(1, +(volume + direction * 0.1).toFixed(1)));
       onvolumechange?.(nextVol);
-    } else if (selectedIndex === 2) {
-      // 3. Touch dynamics
+    } else if (selectedIndex === 3) {
+      // 4. Touch dynamics
       const touchModes = ['normal', 'intimate', 'concert'];
       const currentIdx = touchModes.indexOf(touchCurve);
       const nextIdx = (currentIdx + direction + touchModes.length) % touchModes.length;
       ontouchchange?.(touchModes[nextIdx]);
-    } else if (selectedIndex === 3) {
-      // 4. Reverb
+    } else if (selectedIndex === 4) {
+      // 5. Reverb
       onreverbchange?.(!reverbOn);
     }
   }
@@ -115,7 +129,7 @@
         </div>
       </button>
 
-      <!-- 2. Volume -->
+      <!-- 2. Home Position -->
       <button
         type="button"
         class="setting-row"
@@ -124,14 +138,14 @@
       >
         <div class="row-left">
           <span class="cursor">{selectedIndex === 1 ? '>' : ' '}</span>
-          <span class="setting-label">volume</span>
+          <span class="setting-label">home position</span>
         </div>
         <div class="row-right">
-          <span class="setting-val">{Math.round(volume * 100)}%</span>
+          <span class="setting-val">{currentHomePositionLabel}</span>
         </div>
       </button>
 
-      <!-- 3. Touch Dynamics -->
+      <!-- 3. Volume -->
       <button
         type="button"
         class="setting-row"
@@ -140,14 +154,14 @@
       >
         <div class="row-left">
           <span class="cursor">{selectedIndex === 2 ? '>' : ' '}</span>
-          <span class="setting-label">touch response</span>
+          <span class="setting-label">volume</span>
         </div>
         <div class="row-right">
-          <span class="setting-val">{touchCurve}</span>
+          <span class="setting-val">{Math.round(volume * 100)}%</span>
         </div>
       </button>
 
-      <!-- 4. Hall Reverb -->
+      <!-- 4. Touch Dynamics -->
       <button
         type="button"
         class="setting-row"
@@ -156,6 +170,22 @@
       >
         <div class="row-left">
           <span class="cursor">{selectedIndex === 3 ? '>' : ' '}</span>
+          <span class="setting-label">touch response</span>
+        </div>
+        <div class="row-right">
+          <span class="setting-val">{touchCurve}</span>
+        </div>
+      </button>
+
+      <!-- 5. Hall Reverb -->
+      <button
+        type="button"
+        class="setting-row"
+        class:selected={selectedIndex === 4}
+        onclick={() => { selectedIndex = 4; changeSetting(1); }}
+      >
+        <div class="row-left">
+          <span class="cursor">{selectedIndex === 4 ? '>' : ' '}</span>
           <span class="setting-label">hall reverb</span>
         </div>
         <div class="row-right">
@@ -188,7 +218,7 @@
 
   .modal-dialog {
     width: 100%;
-    max-width: 380px;
+    max-width: 400px;
     background: #0d0d0d;
     border: 1px solid #2c2c2c;
     border-radius: 4px;

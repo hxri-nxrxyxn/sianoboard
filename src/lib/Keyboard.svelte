@@ -1,14 +1,18 @@
 <script>
-  import { KEYBOARD_ROWS, KEY_BY_CODE } from './colemakData.js';
+  import { generateKeyboardRows } from './colemakData.js';
   import { sound } from './soundEngine.js';
   import KeyCap from './KeyCap.svelte';
 
   let {
     layout = 'colemak',
+    homePosition = 'c4',
     disabled = false
   } = $props();
 
   let activeKeys = $state({});
+
+  let rows = $derived(generateKeyboardRows(homePosition));
+  let keyByCode = $derived(new Map(rows.flat().map((k) => [k.code, k])));
 
   function pressKey(key) {
     if (!key || disabled) return;
@@ -49,7 +53,7 @@
     // Do not capture Escape key so it can open settings modal
     if (event.key === 'Escape' || event.code === 'Escape' || event.key === 'Esc') return;
 
-    const matchedKey = KEY_BY_CODE.get(event.code);
+    const matchedKey = keyByCode.get(event.code);
     if (matchedKey) {
       if (['Space', 'Tab', 'Slash', 'Backspace', 'Quote'].includes(event.code)) {
         event.preventDefault();
@@ -62,7 +66,7 @@
     if (event.key === 'Escape' || event.code === 'Escape' || event.key === 'Esc') return;
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName)) return;
 
-    const matchedKey = KEY_BY_CODE.get(event.code);
+    const matchedKey = keyByCode.get(event.code);
     if (matchedKey) {
       if (['Space', 'Tab', 'Slash', 'Backspace', 'Quote'].includes(event.code)) {
         event.preventDefault();
@@ -88,7 +92,7 @@
 
 <div class="keyboard-chassis">
   <div class="keyboard-plate">
-    {#each KEYBOARD_ROWS as row, rowIndex (rowIndex)}
+    {#each rows as row, rowIndex (rowIndex)}
       <div class="keyboard-row">
         {#each row as key (key.code)}
           <KeyCap
