@@ -32,7 +32,7 @@ export function midiToNoteName(midi) {
 }
 
 const RAW_KEYBOARD_TEMPLATE = [
-  // row 0: tier 2 number row
+  // row 0: tier 2 number row (c5 - g6)
   [
     { code: 'Backquote', char: '`', qwertyChar: '`', width: 1, diatonicOffset: 6, hand: 'left' },
     { code: 'Digit1', char: '1', qwertyChar: '1', width: 1, diatonicOffset: 7, hand: 'left' },
@@ -50,7 +50,7 @@ const RAW_KEYBOARD_TEMPLATE = [
     { code: 'Backspace', char: 'backspace', qwertyChar: 'bksp', label: 'bksp', width: 2, isModifier: true, hand: 'right' }
   ],
 
-  // row 1: tier 1 upper row
+  // row 1: tier 1 upper / tab row (c4 - a5)
   [
     { code: 'Tab', char: 'tab', qwertyChar: 'tab', label: 'tab', width: 1.5, isModifier: true, hand: 'left' },
     { code: 'KeyQ', char: 'q', qwertyChar: 'q', width: 1, diatonicOffset: 0, hand: 'left' },
@@ -68,24 +68,24 @@ const RAW_KEYBOARD_TEMPLATE = [
     { code: 'Backslash', char: '\\', qwertyChar: '\\', width: 1.5, diatonicOffset: 12, hand: 'right' }
   ],
 
-  // row 2: tier 2 home row
+  // row 2: tier 2 home / caps lock row (f5 - b6)
   [
     { code: 'CapsLock', char: 'caps', qwertyChar: 'caps', label: 'caps', width: 1.75, isModifier: true, hand: 'left' },
-    { code: 'KeyA', char: 'a', qwertyChar: 'a', width: 1, diatonicOffset: 8, hand: 'left' },
-    { code: 'KeyS', char: 'r', qwertyChar: 's', width: 1, diatonicOffset: 9, hand: 'left' },
-    { code: 'KeyD', char: 's', qwertyChar: 'd', width: 1, diatonicOffset: 10, hand: 'left' },
-    { code: 'KeyF', char: 't', qwertyChar: 'f', width: 1, diatonicOffset: 11, hasNub: true, hand: 'left' },
-    { code: 'KeyG', char: 'd', qwertyChar: 'g', width: 1, diatonicOffset: 12, hand: 'left' },
-    { code: 'KeyH', char: 'h', qwertyChar: 'h', width: 1, diatonicOffset: 13, hand: 'left' },
-    { code: 'KeyJ', char: 'n', qwertyChar: 'j', width: 1, diatonicOffset: 14, hasNub: true, hand: 'right' },
-    { code: 'KeyK', char: 'e', qwertyChar: 'k', width: 1, diatonicOffset: 15, hand: 'right' },
-    { code: 'KeyL', char: 'i', qwertyChar: 'l', width: 1, diatonicOffset: 16, hand: 'right' },
-    { code: 'Semicolon', char: 'o', qwertyChar: ';', width: 1, diatonicOffset: 17, hand: 'right' },
-    { code: 'Quote', char: "'", qwertyChar: "'", width: 1, diatonicOffset: 18, hand: 'right' },
+    { code: 'KeyA', char: 'a', qwertyChar: 'a', width: 1, diatonicOffset: 10, hand: 'left' },
+    { code: 'KeyS', char: 'r', qwertyChar: 's', width: 1, diatonicOffset: 11, hand: 'left' },
+    { code: 'KeyD', char: 's', qwertyChar: 'd', width: 1, diatonicOffset: 12, hand: 'left' },
+    { code: 'KeyF', char: 't', qwertyChar: 'f', width: 1, diatonicOffset: 13, hasNub: true, hand: 'left' },
+    { code: 'KeyG', char: 'd', qwertyChar: 'g', width: 1, diatonicOffset: 14, hand: 'left' },
+    { code: 'KeyH', char: 'h', qwertyChar: 'h', width: 1, diatonicOffset: 15, hand: 'left' },
+    { code: 'KeyJ', char: 'n', qwertyChar: 'j', width: 1, diatonicOffset: 16, hasNub: true, hand: 'right' },
+    { code: 'KeyK', char: 'e', qwertyChar: 'k', width: 1, diatonicOffset: 17, hand: 'right' },
+    { code: 'KeyL', char: 'i', qwertyChar: 'l', width: 1, diatonicOffset: 18, hand: 'right' },
+    { code: 'Semicolon', char: 'o', qwertyChar: ';', width: 1, diatonicOffset: 19, hand: 'right' },
+    { code: 'Quote', char: "'", qwertyChar: "'", width: 1, diatonicOffset: 20, hand: 'right' },
     { code: 'Enter', char: 'enter', qwertyChar: 'enter', label: 'enter', width: 2.25, isModifier: true, hand: 'right' }
   ],
 
-  // row 3: tier 1 bottom row
+  // row 3: tier 1 bottom / shift row (f4 - a5)
   [
     { code: 'ShiftLeft', char: 'shift', qwertyChar: 'shift', label: 'shift', width: 2.25, isModifier: true, hand: 'left' },
     { code: 'KeyZ', char: 'z', qwertyChar: 'z', width: 1, diatonicOffset: 3, hand: 'left' },
