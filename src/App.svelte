@@ -6,6 +6,7 @@
 
   let layout = $state('colemak'); // 'colemak' | 'qwerty'
   let homePosition = $state('c4'); // 'c4' | 'g4' | 'f4' | 'd4' | 'a4' | 'c3' | 'c5'
+  let showFingerGuides = $state(true);
   let volume = $state(0.7);
   let touchCurve = $state('normal'); // 'normal' | 'intimate' | 'concert'
   let reverbOn = $state(true);
@@ -28,6 +29,10 @@
 
   function handleHomePositionChange(nextPos) {
     homePosition = nextPos;
+  }
+
+  function handleFingerGuidesChange(nextVal) {
+    showFingerGuides = nextVal;
   }
 
   function handleVolumeChange(nextVol) {
@@ -72,6 +77,7 @@
     <Keyboard
       {layout}
       {homePosition}
+      {showFingerGuides}
       disabled={isSettingsOpen}
     />
   </div>
@@ -80,12 +86,14 @@
     <SettingsModal
       {layout}
       {homePosition}
+      {showFingerGuides}
       {volume}
       {touchCurve}
       {reverbOn}
       onclose={() => (isSettingsOpen = false)}
       onlayoutchange={handleLayoutChange}
       onhomepositionchange={handleHomePositionChange}
+      onfingerguideschange={handleFingerGuidesChange}
       onvolumechange={handleVolumeChange}
       ontouchchange={handleTouchChange}
       onreverbchange={handleReverbChange}

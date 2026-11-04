@@ -53,19 +53,19 @@ const RAW_KEYBOARD_TEMPLATE = [
   // row 1: tier 1 upper / tab row (c4 - a5)
   [
     { code: 'Tab', char: 'tab', qwertyChar: 'tab', label: 'tab', width: 1.5, isModifier: true, hand: 'left' },
-    { code: 'KeyQ', char: 'q', qwertyChar: 'q', width: 1, diatonicOffset: 0, hand: 'left' },
-    { code: 'KeyW', char: 'w', qwertyChar: 'w', width: 1, diatonicOffset: 1, hand: 'left' },
-    { code: 'KeyE', char: 'f', qwertyChar: 'e', width: 1, diatonicOffset: 2, hand: 'left' },
-    { code: 'KeyR', char: 'p', qwertyChar: 'r', width: 1, diatonicOffset: 3, hand: 'left' },
+    { code: 'KeyQ', char: 'q', qwertyChar: 'q', width: 1, diatonicOffset: 0, finger: '5', hand: 'left' },
+    { code: 'KeyW', char: 'w', qwertyChar: 'w', width: 1, diatonicOffset: 1, finger: '4', hand: 'left' },
+    { code: 'KeyE', char: 'f', qwertyChar: 'e', width: 1, diatonicOffset: 2, finger: '3', hand: 'left' },
+    { code: 'KeyR', char: 'p', qwertyChar: 'r', width: 1, diatonicOffset: 3, finger: '2', hand: 'left' },
     { code: 'KeyT', char: 'g', qwertyChar: 't', width: 1, diatonicOffset: 4, hand: 'left' },
     { code: 'KeyY', char: 'j', qwertyChar: 'y', width: 1, diatonicOffset: 5, hand: 'left' },
     { code: 'KeyU', char: 'l', qwertyChar: 'u', width: 1, diatonicOffset: 6, hand: 'right' },
     { code: 'KeyI', char: 'u', qwertyChar: 'i', width: 1, diatonicOffset: 7, hand: 'right' },
     { code: 'KeyO', char: 'y', qwertyChar: 'o', width: 1, diatonicOffset: 8, hand: 'right' },
-    { code: 'KeyP', char: ';', qwertyChar: 'p', width: 1, diatonicOffset: 9, hand: 'right' },
-    { code: 'BracketLeft', char: '[', qwertyChar: '[', width: 1, diatonicOffset: 10, hand: 'right' },
-    { code: 'BracketRight', char: ']', qwertyChar: ']', width: 1, diatonicOffset: 11, hand: 'right' },
-    { code: 'Backslash', char: '\\', qwertyChar: '\\', width: 1.5, diatonicOffset: 12, hand: 'right' }
+    { code: 'KeyP', char: ';', qwertyChar: 'p', width: 1, diatonicOffset: 9, finger: '2', hand: 'right' },
+    { code: 'BracketLeft', char: '[', qwertyChar: '[', width: 1, diatonicOffset: 10, finger: '3', hand: 'right' },
+    { code: 'BracketRight', char: ']', qwertyChar: ']', width: 1, diatonicOffset: 11, finger: '4', hand: 'right' },
+    { code: 'Backslash', char: '\\', qwertyChar: '\\', width: 1.5, diatonicOffset: 12, finger: '5', hand: 'right' }
   ],
 
   // row 2: tier 2 home / caps lock row (f5 - b6)
@@ -89,15 +89,15 @@ const RAW_KEYBOARD_TEMPLATE = [
   [
     { code: 'ShiftLeft', char: 'shift', qwertyChar: 'shift', label: 'shift', width: 2.25, isModifier: true, hand: 'left' },
     { code: 'KeyZ', char: 'z', qwertyChar: 'z', width: 1, diatonicOffset: 3, hand: 'left' },
-    { code: 'KeyX', char: 'x', qwertyChar: 'x', width: 1, diatonicOffset: 4, hand: 'left' },
-    { code: 'KeyC', char: 'c', qwertyChar: 'c', width: 1, diatonicOffset: 5, hand: 'left' },
+    { code: 'KeyX', char: 'x', qwertyChar: 'x', width: 1, diatonicOffset: 4, finger: '1', hand: 'left' },
+    { code: 'KeyC', char: 'c', qwertyChar: 'c', width: 1, diatonicOffset: 5, finger: '-', hand: 'left' },
     { code: 'KeyV', char: 'v', qwertyChar: 'v', width: 1, diatonicOffset: 6, hand: 'left' },
     { code: 'KeyB', char: 'b', qwertyChar: 'b', width: 1, diatonicOffset: 7, hand: 'left' },
     { code: 'KeyN', char: 'k', qwertyChar: 'n', width: 1, diatonicOffset: 8, hand: 'right' },
     { code: 'KeyM', char: 'm', qwertyChar: 'm', width: 1, diatonicOffset: 9, hand: 'right' },
     { code: 'Comma', char: ',', qwertyChar: ',', width: 1, diatonicOffset: 10, hand: 'right' },
-    { code: 'Period', char: '.', qwertyChar: '.', width: 1, diatonicOffset: 11, hand: 'right' },
-    { code: 'Slash', char: '/', qwertyChar: '/', width: 1, diatonicOffset: 12, hand: 'right' },
+    { code: 'Period', char: '.', qwertyChar: '.', width: 1, diatonicOffset: 11, finger: '1', hand: 'right' },
+    { code: 'Slash', char: '/', qwertyChar: '/', width: 1, diatonicOffset: 12, finger: '-', hand: 'right' },
     { code: 'ShiftRight', char: 'shift', qwertyChar: 'shift', label: 'shift', width: 2.75, isModifier: true, hand: 'right' }
   ],
 

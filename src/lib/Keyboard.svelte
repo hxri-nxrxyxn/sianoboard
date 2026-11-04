@@ -6,6 +6,7 @@
   let {
     layout = 'colemak',
     homePosition = 'c4',
+    showFingerGuides = true,
     disabled = false
   } = $props();
 
@@ -98,6 +99,7 @@
           <KeyCap
             keyData={key}
             {layout}
+            {showFingerGuides}
             isPressed={Boolean(activeKeys[key.code])}
             ontapdown={() => pressKey(key)}
             ontapup={() => releaseKey(key)}

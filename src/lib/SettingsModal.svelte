@@ -4,12 +4,14 @@
   let {
     layout = 'colemak',
     homePosition = 'c4',
+    showFingerGuides = true,
     volume = 0.7,
     touchCurve = 'normal',
     reverbOn = true,
     onclose,
     onlayoutchange,
     onhomepositionchange,
+    onfingerguideschange,
     onvolumechange,
     ontouchchange,
     onreverbchange
@@ -20,6 +22,7 @@
   const SETTINGS = [
     { id: 'layout', label: 'layout' },
     { id: 'homePosition', label: 'home position' },
+    { id: 'fingerGuides', label: 'finger guides' },
     { id: 'volume', label: 'volume' },
     { id: 'touch', label: 'touch response' },
     { id: 'reverb', label: 'hall reverb' }
@@ -75,17 +78,20 @@
       const nextIdx = (currentIdx + direction + HOME_POSITIONS.length) % HOME_POSITIONS.length;
       onhomepositionchange?.(HOME_POSITIONS[nextIdx].id);
     } else if (selectedIndex === 2) {
-      // 3. Volume
+      // 3. Finger guides: on / off
+      onfingerguideschange?.(!showFingerGuides);
+    } else if (selectedIndex === 3) {
+      // 4. Volume
       const nextVol = Math.max(0, Math.min(1, +(volume + direction * 0.1).toFixed(1)));
       onvolumechange?.(nextVol);
-    } else if (selectedIndex === 3) {
-      // 4. Touch dynamics
+    } else if (selectedIndex === 4) {
+      // 5. Touch dynamics
       const touchModes = ['normal', 'intimate', 'concert'];
       const currentIdx = touchModes.indexOf(touchCurve);
       const nextIdx = (currentIdx + direction + touchModes.length) % touchModes.length;
       ontouchchange?.(touchModes[nextIdx]);
-    } else if (selectedIndex === 4) {
-      // 5. Reverb
+    } else if (selectedIndex === 5) {
+      // 6. Reverb
       onreverbchange?.(!reverbOn);
     }
   }
@@ -145,7 +151,7 @@
         </div>
       </button>
 
-      <!-- 3. Volume -->
+      <!-- 3. Finger Guides -->
       <button
         type="button"
         class="setting-row"
@@ -154,14 +160,14 @@
       >
         <div class="row-left">
           <span class="cursor">{selectedIndex === 2 ? '>' : ' '}</span>
-          <span class="setting-label">volume</span>
+          <span class="setting-label">finger guides</span>
         </div>
         <div class="row-right">
-          <span class="setting-val">{Math.round(volume * 100)}%</span>
+          <span class="setting-val">{showFingerGuides ? 'on' : 'off'}</span>
         </div>
       </button>
 
-      <!-- 4. Touch Dynamics -->
+      <!-- 4. Volume -->
       <button
         type="button"
         class="setting-row"
@@ -170,14 +176,14 @@
       >
         <div class="row-left">
           <span class="cursor">{selectedIndex === 3 ? '>' : ' '}</span>
-          <span class="setting-label">touch response</span>
+          <span class="setting-label">volume</span>
         </div>
         <div class="row-right">
-          <span class="setting-val">{touchCurve}</span>
+          <span class="setting-val">{Math.round(volume * 100)}%</span>
         </div>
       </button>
 
-      <!-- 5. Hall Reverb -->
+      <!-- 5. Touch Dynamics -->
       <button
         type="button"
         class="setting-row"
@@ -186,6 +192,22 @@
       >
         <div class="row-left">
           <span class="cursor">{selectedIndex === 4 ? '>' : ' '}</span>
+          <span class="setting-label">touch response</span>
+        </div>
+        <div class="row-right">
+          <span class="setting-val">{touchCurve}</span>
+        </div>
+      </button>
+
+      <!-- 6. Hall Reverb -->
+      <button
+        type="button"
+        class="setting-row"
+        class:selected={selectedIndex === 5}
+        onclick={() => { selectedIndex = 5; changeSetting(1); }}
+      >
+        <div class="row-left">
+          <span class="cursor">{selectedIndex === 5 ? '>' : ' '}</span>
           <span class="setting-label">hall reverb</span>
         </div>
         <div class="row-right">

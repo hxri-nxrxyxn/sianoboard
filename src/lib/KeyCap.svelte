@@ -3,6 +3,7 @@
     keyData,
     isPressed = false,
     layout = 'colemak',
+    showFingerGuides = true,
     ontapdown,
     ontapup
   } = $props();
@@ -46,10 +47,16 @@
   data-code={keyData.code}
 >
   <div class="keycap-surface">
-    <!-- Top: Small Note Legend (e.g. c5) -->
+    <!-- Top: Small Note Legend (left) and Hand Finger Position (right) -->
     <div class="keycap-top">
       {#if keyData.noteName}
         <span class="note-legend">{keyData.noteName}</span>
+      {:else}
+        <span></span>
+      {/if}
+
+      {#if showFingerGuides && keyData.finger}
+        <span class="finger-legend">{keyData.finger}</span>
       {/if}
     </div>
 
@@ -111,7 +118,8 @@
     color: var(--key-active-text);
   }
 
-  .keycap.pressed .note-legend {
+  .keycap.pressed .note-legend,
+  .keycap.pressed .finger-legend {
     color: var(--key-active-subtext);
   }
 
@@ -119,11 +127,12 @@
     background: var(--key-active-text);
   }
 
-  /* Top note name */
+  /* Top row: Note name on left, Finger indicator on right */
   .keycap-top {
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
     min-height: 11px;
     line-height: 1;
   }
@@ -135,6 +144,16 @@
     letter-spacing: 0.02em;
     font-family: inherit;
     line-height: 1;
+  }
+
+  .finger-legend {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--key-subtext);
+    letter-spacing: 0.02em;
+    font-family: inherit;
+    line-height: 1;
+    opacity: 0.85;
   }
 
   /* Main letter */
@@ -184,7 +203,8 @@
     .main-char {
       font-size: 12px;
     }
-    .note-legend {
+    .note-legend,
+    .finger-legend {
       font-size: 8px;
     }
     .keycap.modifier .main-char {
