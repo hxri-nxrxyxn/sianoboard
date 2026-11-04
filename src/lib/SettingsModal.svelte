@@ -1,6 +1,5 @@
 <script>
   let {
-    isOpen = false,
     layout = 'colemak',
     volume = 0.7,
     touchCurve = 'normal',
@@ -22,12 +21,8 @@
   ];
 
   function handleKeyDown(e) {
-    if (!isOpen) return;
-
-    if (e.key === 'Escape') {
-      e.preventDefault();
-      e.stopPropagation();
-      onclose?.();
+    if (e.key === 'Escape' || e.code === 'Escape' || e.key === 'Esc') {
+      // Escape toggling is handled centrally by App.svelte
       return;
     }
 
@@ -80,100 +75,102 @@
       onreverbchange?.(!reverbOn);
     }
   }
+
+  function handleBackdropClick(e) {
+    if (e.target === e.currentTarget) {
+      onclose?.();
+    }
+  }
 </script>
 
 <svelte:window onkeydown={handleKeyDown} />
 
-{#if isOpen}
-  <div class="modal-backdrop" onclick={onclose} role="presentation">
-    <div
-      class="modal-dialog"
-      onclick={(e) => e.stopPropagation()}
-      onkeydown={(e) => { if (e.key === 'Escape') onclose?.(); }}
-      role="dialog"
-      aria-modal="true"
-      aria-label="settings"
-      tabindex="-1"
-    >
-      <div class="modal-header">
-        <span class="modal-title">settings</span>
-        <span class="modal-hint">[esc to close]</span>
-      </div>
+<div class="modal-backdrop" onclick={handleBackdropClick} role="presentation">
+  <div
+    class="modal-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-label="settings"
+    tabindex="-1"
+  >
+    <div class="modal-header">
+      <span class="modal-title">settings</span>
+      <button type="button" class="close-hint-btn" onclick={onclose}>[esc to close]</button>
+    </div>
 
-      <div class="settings-list">
-        <!-- 1. Layout -->
-        <button
-          type="button"
-          class="setting-row"
-          class:selected={selectedIndex === 0}
-          onclick={() => { selectedIndex = 0; changeSetting(1); }}
-        >
-          <div class="row-left">
-            <span class="cursor">{selectedIndex === 0 ? '>' : ' '}</span>
-            <span class="setting-label">layout</span>
-          </div>
-          <div class="row-right">
-            <span class="setting-val">{layout}</span>
-          </div>
-        </button>
+    <div class="settings-list">
+      <!-- 1. Layout -->
+      <button
+        type="button"
+        class="setting-row"
+        class:selected={selectedIndex === 0}
+        onclick={() => { selectedIndex = 0; changeSetting(1); }}
+      >
+        <div class="row-left">
+          <span class="cursor">{selectedIndex === 0 ? '>' : ' '}</span>
+          <span class="setting-label">layout</span>
+        </div>
+        <div class="row-right">
+          <span class="setting-val">{layout}</span>
+        </div>
+      </button>
 
-        <!-- 2. Volume -->
-        <button
-          type="button"
-          class="setting-row"
-          class:selected={selectedIndex === 1}
-          onclick={() => { selectedIndex = 1; changeSetting(1); }}
-        >
-          <div class="row-left">
-            <span class="cursor">{selectedIndex === 1 ? '>' : ' '}</span>
-            <span class="setting-label">volume</span>
-          </div>
-          <div class="row-right">
-            <span class="setting-val">{Math.round(volume * 100)}%</span>
-          </div>
-        </button>
+      <!-- 2. Volume -->
+      <button
+        type="button"
+        class="setting-row"
+        class:selected={selectedIndex === 1}
+        onclick={() => { selectedIndex = 1; changeSetting(1); }}
+      >
+        <div class="row-left">
+          <span class="cursor">{selectedIndex === 1 ? '>' : ' '}</span>
+          <span class="setting-label">volume</span>
+        </div>
+        <div class="row-right">
+          <span class="setting-val">{Math.round(volume * 100)}%</span>
+        </div>
+      </button>
 
-        <!-- 3. Touch Dynamics -->
-        <button
-          type="button"
-          class="setting-row"
-          class:selected={selectedIndex === 2}
-          onclick={() => { selectedIndex = 2; changeSetting(1); }}
-        >
-          <div class="row-left">
-            <span class="cursor">{selectedIndex === 2 ? '>' : ' '}</span>
-            <span class="setting-label">touch response</span>
-          </div>
-          <div class="row-right">
-            <span class="setting-val">{touchCurve}</span>
-          </div>
-        </button>
+      <!-- 3. Touch Dynamics -->
+      <button
+        type="button"
+        class="setting-row"
+        class:selected={selectedIndex === 2}
+        onclick={() => { selectedIndex = 2; changeSetting(1); }}
+      >
+        <div class="row-left">
+          <span class="cursor">{selectedIndex === 2 ? '>' : ' '}</span>
+          <span class="setting-label">touch response</span>
+        </div>
+        <div class="row-right">
+          <span class="setting-val">{touchCurve}</span>
+        </div>
+      </button>
 
-        <!-- 4. Hall Reverb -->
-        <button
-          type="button"
-          class="setting-row"
-          class:selected={selectedIndex === 3}
-          onclick={() => { selectedIndex = 3; changeSetting(1); }}
-        >
-          <div class="row-left">
-            <span class="cursor">{selectedIndex === 3 ? '>' : ' '}</span>
-            <span class="setting-label">hall reverb</span>
-          </div>
-          <div class="row-right">
-            <span class="setting-val">{reverbOn ? 'on' : 'off'}</span>
-          </div>
-        </button>
-      </div>
+      <!-- 4. Hall Reverb -->
+      <button
+        type="button"
+        class="setting-row"
+        class:selected={selectedIndex === 3}
+        onclick={() => { selectedIndex = 3; changeSetting(1); }}
+      >
+        <div class="row-left">
+          <span class="cursor">{selectedIndex === 3 ? '>' : ' '}</span>
+          <span class="setting-label">hall reverb</span>
+        </div>
+        <div class="row-right">
+          <span class="setting-val">{reverbOn ? 'on' : 'off'}</span>
+        </div>
+      </button>
+    </div>
 
-      <div class="modal-footer">
-        <span>[↑/↓: select]</span>
-        <span>[←/→: change]</span>
-        <span>[esc: close]</span>
-      </div>
+    <div class="modal-footer">
+      <span>[↑/↓: select]</span>
+      <span>[←/→: change]</span>
+      <button type="button" class="close-footer-btn" onclick={onclose}>[esc: close]</button>
     </div>
   </div>
-{/if}
+</div>
 
 <style>
   .modal-backdrop {
@@ -218,9 +215,19 @@
     letter-spacing: -0.02em;
   }
 
-  .modal-hint {
+  .close-hint-btn, .close-footer-btn {
+    background: transparent;
+    border: none;
     font-size: 10px;
     color: #666666;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+    transition: color 40ms ease;
+  }
+
+  .close-hint-btn:hover, .close-footer-btn:hover {
+    color: #ffffff;
   }
 
   .settings-list {
@@ -282,6 +289,7 @@
   .modal-footer {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-top: 1px solid #222222;
     padding-top: 10px;
     font-size: 10px;

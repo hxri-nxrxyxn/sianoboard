@@ -10,7 +10,7 @@
   let isSettingsOpen = $state(false);
 
   function handleWindowKeyDown(e) {
-    if (e.key === 'Escape') {
+    if (e.key === 'Escape' || e.code === 'Escape' || e.key === 'Esc') {
       e.preventDefault();
       isSettingsOpen = !isSettingsOpen;
     }
@@ -41,38 +41,94 @@
 <svelte:window onkeydown={handleWindowKeyDown} />
 
 <main class="viewport">
-  <Keyboard
-    {layout}
-    disabled={isSettingsOpen}
-  />
+  <div class="keyboard-container">
+    <div class="top-bar">
+      <span class="active-badge">{layout}</span>
+      <button
+        type="button"
+        class="settings-btn"
+        onclick={() => (isSettingsOpen = !isSettingsOpen)}
+        title="settings (esc)"
+        aria-label="open settings modal"
+      >
+        [esc: settings]
+      </button>
+    </div>
 
-  <SettingsModal
-    isOpen={isSettingsOpen}
-    {layout}
-    {volume}
-    {touchCurve}
-    {reverbOn}
-    onclose={() => (isSettingsOpen = false)}
-    onlayoutchange={handleLayoutChange}
-    onvolumechange={handleVolumeChange}
-    ontouchchange={handleTouchChange}
-    onreverbchange={handleReverbChange}
-  />
+    <Keyboard
+      {layout}
+      disabled={isSettingsOpen}
+    />
+  </div>
+
+  {#if isSettingsOpen}
+    <SettingsModal
+      {layout}
+      {volume}
+      {touchCurve}
+      {reverbOn}
+      onclose={() => (isSettingsOpen = false)}
+      onlayoutchange={handleLayoutChange}
+      onvolumechange={handleVolumeChange}
+      ontouchchange={handleTouchChange}
+      onreverbchange={handleReverbChange}
+    />
+  {/if}
 </main>
 
 <style>
   .viewport {
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 20px 14px;
     background: var(--bg-page);
   }
 
+  .keyboard-container {
+    width: 100%;
+    max-width: 980px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4px;
+  }
+
+  .active-badge {
+    font-size: 11px;
+    color: #444444;
+    letter-spacing: 0.05em;
+  }
+
+  .settings-btn {
+    background: transparent;
+    border: none;
+    font-size: 11px;
+    color: #666666;
+    cursor: pointer;
+    padding: 2px 4px;
+    font-family: inherit;
+    transition: color 40ms ease;
+  }
+
+  .settings-btn:hover {
+    color: #ffffff;
+  }
+
   @media (max-width: 768px) {
     .viewport {
       padding: 10px 6px;
+    }
+    .keyboard-container {
+      gap: 6px;
     }
   }
 </style>

@@ -42,7 +42,7 @@
   onpointerup={handlePointerUp}
   onpointerleave={handlePointerLeave}
   onpointercancel={handlePointerLeave}
-  aria-label={displayedChar}
+  aria-label={keyData.noteName ? `${displayedChar} ${keyData.noteName}` : displayedChar}
   data-code={keyData.code}
 >
   <div class="keycap-surface">
@@ -96,7 +96,7 @@
     border-radius: 3px;
     background: var(--key-bg);
     color: var(--key-text);
-    padding: 5px 6px;
+    padding: 4px 6px 5px;
     transition: background 40ms ease, color 40ms ease;
   }
 
@@ -122,15 +122,19 @@
   /* Top note name */
   .keycap-top {
     display: flex;
-    justify-content: flex-end;
-    min-height: 10px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-height: 11px;
     line-height: 1;
   }
 
   .note-legend {
-    font-size: 9px;
+    font-size: 10px;
+    font-weight: 500;
     color: var(--key-subtext);
     letter-spacing: 0.02em;
+    font-family: inherit;
+    line-height: 1;
   }
 
   /* Main letter */
@@ -143,7 +147,7 @@
   }
 
   .main-char {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     line-height: 1;
   }
@@ -181,7 +185,7 @@
       font-size: 12px;
     }
     .note-legend {
-      font-size: 7px;
+      font-size: 8px;
     }
     .keycap.modifier .main-char {
       font-size: 8px;

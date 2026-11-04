@@ -9,12 +9,12 @@
   --key-side: #000000;
   --key-border: #2c2c2c;
   --key-text: #ffffff;
-  --key-subtext: #737373;
+  --key-subtext: #8e8e8e;
 
   /* Pressed state */
   --key-active-bg: #ffffff;
   --key-active-text: #000000;
-  --key-active-subtext: #525252;
+  --key-active-subtext: #555555;
   --key-shadow: 0 4px 0 #000000;
   --key-active-shadow: 0 1px 0 #000000;
   --key-nub-color: #ffffff;

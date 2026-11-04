@@ -14,8 +14,8 @@ export function midiToNoteName(midi) {
   return `${name}${octave}`;
 }
 
-export const KEYBOARD_ROWS = [
-  // row 0: tier 2 number row (c5 - a6)
+const RAW_KEYBOARD_ROWS = [
+  // row 0: tier 2 number row (c5 - g6)
   [
     { code: 'Backquote', char: '`', qwertyChar: '`', width: 1, midi: 71, hand: 'left' },
     { code: 'Digit1', char: '1', qwertyChar: '1', width: 1, midi: 72, hand: 'left' },   // c5
@@ -30,12 +30,12 @@ export const KEYBOARD_ROWS = [
     { code: 'Digit0', char: '0', qwertyChar: '0', width: 1, midi: 88, hand: 'right' },  // e6
     { code: 'Minus', char: '-', qwertyChar: '-', width: 1, midi: 89, hand: 'right' },   // f6
     { code: 'Equal', char: '=', qwertyChar: '=', width: 1, midi: 91, hand: 'right' },   // g6
-    { code: 'Backspace', char: 'backspace', qwertyChar: 'bksp', label: 'bksp', width: 2, midi: 93, isModifier: true, hand: 'right' }
+    { code: 'Backspace', char: 'backspace', qwertyChar: 'bksp', label: 'bksp', width: 2, isModifier: true, hand: 'right' }
   ],
 
   // row 1: tier 1 upper row (c4 - a5)
   [
-    { code: 'Tab', char: 'tab', qwertyChar: 'tab', label: 'tab', width: 1.5, midi: 59, isModifier: true, hand: 'left' },
+    { code: 'Tab', char: 'tab', qwertyChar: 'tab', label: 'tab', width: 1.5, isModifier: true, hand: 'left' },
     { code: 'KeyQ', char: 'q', qwertyChar: 'q', width: 1, midi: 60, hand: 'left' }, // c4
     { code: 'KeyW', char: 'w', qwertyChar: 'w', width: 1, midi: 62, hand: 'left' }, // d4
     { code: 'KeyE', char: 'f', qwertyChar: 'e', width: 1, midi: 64, hand: 'left' }, // e4
@@ -51,9 +51,9 @@ export const KEYBOARD_ROWS = [
     { code: 'Backslash', char: '\\', qwertyChar: '\\', width: 1.5, midi: 81, hand: 'right' }  // a5
   ],
 
-  // row 2: tier 2 home row (d5 - a6)
+  // row 2: tier 2 home row (d5 - g6)
   [
-    { code: 'CapsLock', char: 'caps', qwertyChar: 'caps', label: 'caps/bksp', width: 1.75, midi: 72, isModifier: true, hand: 'left' },
+    { code: 'CapsLock', char: 'caps', qwertyChar: 'caps', label: 'caps', width: 1.75, isModifier: true, hand: 'left' },
     { code: 'KeyA', char: 'a', qwertyChar: 'a', width: 1, midi: 74, hand: 'left' }, // d5
     { code: 'KeyS', char: 'r', qwertyChar: 's', width: 1, midi: 76, hand: 'left' }, // e5
     { code: 'KeyD', char: 's', qwertyChar: 'd', width: 1, midi: 77, hand: 'left' }, // f5
@@ -65,12 +65,12 @@ export const KEYBOARD_ROWS = [
     { code: 'KeyL', char: 'i', qwertyChar: 'l', width: 1, midi: 88, hand: 'right' }, // e6
     { code: 'Semicolon', char: 'o', qwertyChar: ';', width: 1, midi: 89, hand: 'right' }, // f6
     { code: 'Quote', char: "'", qwertyChar: "'", width: 1, midi: 91, hand: 'right' }, // g6
-    { code: 'Enter', char: 'enter', qwertyChar: 'enter', label: 'enter', width: 2.25, midi: 93, isModifier: true, hand: 'right' }
+    { code: 'Enter', char: 'enter', qwertyChar: 'enter', label: 'enter', width: 2.25, isModifier: true, hand: 'right' }
   ],
 
-  // row 3: tier 1 bottom row (e4 - b5)
+  // row 3: tier 1 bottom row (f4 - a5)
   [
-    { code: 'ShiftLeft', char: 'shift', qwertyChar: 'shift', label: 'shift', width: 2.25, midi: 64, isModifier: true, hand: 'left' },
+    { code: 'ShiftLeft', char: 'shift', qwertyChar: 'shift', label: 'shift', width: 2.25, isModifier: true, hand: 'left' },
     { code: 'KeyZ', char: 'z', qwertyChar: 'z', width: 1, midi: 65, hand: 'left' }, // f4
     { code: 'KeyX', char: 'x', qwertyChar: 'x', width: 1, midi: 67, hand: 'left' }, // g4
     { code: 'KeyC', char: 'c', qwertyChar: 'c', width: 1, midi: 69, hand: 'left' }, // a4
@@ -81,7 +81,7 @@ export const KEYBOARD_ROWS = [
     { code: 'Comma', char: ',', qwertyChar: ',', width: 1, midi: 77, hand: 'right' }, // f5
     { code: 'Period', char: '.', qwertyChar: '.', width: 1, midi: 79, hand: 'right' }, // g5
     { code: 'Slash', char: '/', qwertyChar: '/', width: 1, midi: 81, hand: 'right' },  // a5
-    { code: 'ShiftRight', char: 'shift', qwertyChar: 'shift', label: 'shift', width: 2.75, midi: 83, isModifier: true, hand: 'right' }
+    { code: 'ShiftRight', char: 'shift', qwertyChar: 'shift', label: 'shift', width: 2.75, isModifier: true, hand: 'right' }
   ],
 
   // row 4: sustain damper pedal
@@ -97,15 +97,18 @@ export const KEYBOARD_ROWS = [
   ]
 ];
 
-export const ALL_KEYS = KEYBOARD_ROWS.flat().map((key) => {
-  const noteName = key.midi ? midiToNoteName(key.midi) : null;
-  const freq = key.midi ? midiToFreq(key.midi) : null;
-  return {
-    ...key,
-    noteName,
-    freq
-  };
-});
+export const KEYBOARD_ROWS = RAW_KEYBOARD_ROWS.map((row) =>
+  row.map((key) => {
+    const noteName = key.midi ? midiToNoteName(key.midi) : null;
+    const freq = key.midi ? midiToFreq(key.midi) : null;
+    return {
+      ...key,
+      noteName,
+      freq
+    };
+  })
+);
 
+export const ALL_KEYS = KEYBOARD_ROWS.flat();
 export const KEY_BY_CODE = new Map(ALL_KEYS.map((k) => [k.code, k]));
 export const KEY_BY_CHAR = new Map(ALL_KEYS.map((k) => [k.char.toLowerCase(), k]));

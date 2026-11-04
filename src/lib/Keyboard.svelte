@@ -47,7 +47,7 @@
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName)) return;
 
     // Do not capture Escape key so it can open settings modal
-    if (event.key === 'Escape') return;
+    if (event.key === 'Escape' || event.code === 'Escape' || event.key === 'Esc') return;
 
     const matchedKey = KEY_BY_CODE.get(event.code);
     if (matchedKey) {
@@ -59,7 +59,7 @@
   }
 
   function handleKeyUp(event) {
-    if (event.key === 'Escape') return;
+    if (event.key === 'Escape' || event.code === 'Escape' || event.key === 'Esc') return;
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName)) return;
 
     const matchedKey = KEY_BY_CODE.get(event.code);
