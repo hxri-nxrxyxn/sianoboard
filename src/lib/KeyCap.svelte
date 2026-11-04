@@ -47,7 +47,7 @@
   data-code={keyData.code}
 >
   <div class="keycap-surface">
-    <!-- Top: Small Note Legend (left) and Hand Finger Position (right) -->
+    <!-- Top: Small Note Legend (left) and High-Contrast Hand Finger Position (right) -->
     <div class="keycap-top">
       {#if keyData.noteName}
         <span class="note-legend">{keyData.noteName}</span>
@@ -118,22 +118,27 @@
     color: var(--key-active-text);
   }
 
-  .keycap.pressed .note-legend,
-  .keycap.pressed .finger-legend {
+  .keycap.pressed .note-legend {
     color: var(--key-active-subtext);
+  }
+
+  .keycap.pressed .finger-legend {
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
   }
 
   .keycap.pressed .homing-nub {
     background: var(--key-active-text);
   }
 
-  /* Top row: Note name on left, Finger indicator on right */
+  /* Top row: Note name on left, Finger indicator badge on right */
   .keycap-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    min-height: 11px;
+    min-height: 14px;
     line-height: 1;
   }
 
@@ -146,14 +151,23 @@
     line-height: 1;
   }
 
+  /* High contrast noticeable finger guide badge */
   .finger-legend {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 15px;
+    height: 14px;
+    padding: 0 3px;
     font-size: 10px;
     font-weight: 700;
-    color: var(--key-subtext);
-    letter-spacing: 0.02em;
+    color: #ffffff;
+    background: #2b2b2b;
+    border: 1px solid #484848;
+    border-radius: 3px;
     font-family: inherit;
     line-height: 1;
-    opacity: 0.85;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
   }
 
   /* Main letter */
@@ -203,9 +217,13 @@
     .main-char {
       font-size: 12px;
     }
-    .note-legend,
+    .note-legend {
+      font-size: 8px;
+    }
     .finger-legend {
       font-size: 8px;
+      min-width: 13px;
+      height: 12px;
     }
     .keycap.modifier .main-char {
       font-size: 8px;

@@ -6,6 +6,7 @@
 
   let layout = $state('colemak'); // 'colemak' | 'qwerty'
   let homePosition = $state('c4'); // 'c4' | 'g4' | 'f4' | 'd4' | 'a4' | 'c3' | 'c5'
+  let octaveShift = $state(0); // -2 to +2
   let showFingerGuides = $state(true);
   let volume = $state(0.7);
   let touchCurve = $state('normal'); // 'normal' | 'intimate' | 'concert'
@@ -29,6 +30,22 @@
 
   function handleHomePositionChange(nextPos) {
     homePosition = nextPos;
+  }
+
+  function handleOctaveDelta(delta) {
+    const next = Math.max(-2, Math.min(2, octaveShift + delta));
+    if (next !== octaveShift) {
+      sound.stopAllVoices?.();
+      octaveShift = next;
+    }
+  }
+
+  function handleSetOctave(val) {
+    const next = Math.max(-2, Math.min(2, val));
+    if (next !== octaveShift) {
+      sound.stopAllVoices?.();
+      octaveShift = next;
+    }
   }
 
   function handleFingerGuidesChange(nextVal) {
@@ -62,6 +79,16 @@
         <span class="active-badge">{layout}</span>
         <span class="divider">/</span>
         <span class="position-badge">{currentHomePositionLabel}</span>
+        {#if octaveShift !== 0}
+          <button
+            type="button"
+            class="octave-badge-btn"
+            onclick={() => handleSetOctave(0)}
+            title="click to reset octave to normal"
+          >
+            oct {octaveShift > 0 ? `+${octaveShift}` : octaveShift} [reset]
+          </button>
+        {/if}
       </div>
       <button
         type="button"
@@ -77,8 +104,10 @@
     <Keyboard
       {layout}
       {homePosition}
+      {octaveShift}
       {showFingerGuides}
       disabled={isSettingsOpen}
+      onchangeoctave={handleOctaveDelta}
     />
   </div>
 
@@ -86,6 +115,7 @@
     <SettingsModal
       {layout}
       {homePosition}
+      {octaveShift}
       {showFingerGuides}
       {volume}
       {touchCurve}
@@ -93,6 +123,7 @@
       onclose={() => (isSettingsOpen = false)}
       onlayoutchange={handleLayoutChange}
       onhomepositionchange={handleHomePositionChange}
+      onoctavechange={handleSetOctave}
       onfingerguideschange={handleFingerGuidesChange}
       onvolumechange={handleVolumeChange}
       ontouchchange={handleTouchChange}
@@ -146,6 +177,25 @@
 
   .position-badge {
     color: #666666;
+  }
+
+  .octave-badge-btn {
+    background: #1c1c1c;
+    border: 1px solid #333333;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 1px 5px;
+    font-family: inherit;
+    transition: all 40ms ease;
+  }
+
+  .octave-badge-btn:hover {
+    background: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
   }
 
   .settings-btn {

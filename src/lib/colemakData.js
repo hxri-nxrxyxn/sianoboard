@@ -32,7 +32,7 @@ export function midiToNoteName(midi) {
 }
 
 const RAW_KEYBOARD_TEMPLATE = [
-  // row 0: tier 2 number row (c5 - g6)
+  // row 0: tier 2 number row (c5 - a6)
   [
     { code: 'Backquote', char: '`', qwertyChar: '`', width: 1, diatonicOffset: 6, hand: 'left' },
     { code: 'Digit1', char: '1', qwertyChar: '1', width: 1, diatonicOffset: 7, hand: 'left' },
@@ -47,7 +47,7 @@ const RAW_KEYBOARD_TEMPLATE = [
     { code: 'Digit0', char: '0', qwertyChar: '0', width: 1, diatonicOffset: 16, hand: 'right' },
     { code: 'Minus', char: '-', qwertyChar: '-', width: 1, diatonicOffset: 17, hand: 'right' },
     { code: 'Equal', char: '=', qwertyChar: '=', width: 1, diatonicOffset: 18, hand: 'right' },
-    { code: 'Backspace', char: 'backspace', qwertyChar: 'bksp', label: 'bksp', width: 2, isModifier: true, hand: 'right' }
+    { code: 'Backspace', char: 'backspace', qwertyChar: 'bksp', label: 'bksp', width: 2, diatonicOffset: 19, isModifier: true, hand: 'right' }
   ],
 
   // row 1: tier 1 upper / tab row (c4 - a5)
@@ -70,7 +70,7 @@ const RAW_KEYBOARD_TEMPLATE = [
 
   // row 2: tier 2 home / caps lock row (f5 - b6)
   [
-    { code: 'CapsLock', char: 'caps', qwertyChar: 'caps', label: 'caps', width: 1.75, isModifier: true, hand: 'left' },
+    { code: 'CapsLock', char: 'caps', qwertyChar: 'caps', label: 'caps [oct -]', width: 1.75, isModifier: true, hand: 'left' },
     { code: 'KeyA', char: 'a', qwertyChar: 'a', width: 1, diatonicOffset: 10, hand: 'left' },
     { code: 'KeyS', char: 'r', qwertyChar: 's', width: 1, diatonicOffset: 11, hand: 'left' },
     { code: 'KeyD', char: 's', qwertyChar: 'd', width: 1, diatonicOffset: 12, hand: 'left' },
@@ -87,7 +87,7 @@ const RAW_KEYBOARD_TEMPLATE = [
 
   // row 3: tier 1 bottom / shift row (f4 - a5)
   [
-    { code: 'ShiftLeft', char: 'shift', qwertyChar: 'shift', label: 'shift', width: 2.25, isModifier: true, hand: 'left' },
+    { code: 'ShiftLeft', char: 'shift', qwertyChar: 'shift', label: 'shift [oct +]', width: 2.25, isModifier: true, hand: 'left' },
     { code: 'KeyZ', char: 'z', qwertyChar: 'z', width: 1, diatonicOffset: 3, hand: 'left' },
     { code: 'KeyX', char: 'x', qwertyChar: 'x', width: 1, diatonicOffset: 4, finger: '1', hand: 'left' },
     { code: 'KeyC', char: 'c', qwertyChar: 'c', width: 1, diatonicOffset: 5, finger: '-', hand: 'left' },
@@ -98,7 +98,7 @@ const RAW_KEYBOARD_TEMPLATE = [
     { code: 'Comma', char: ',', qwertyChar: ',', width: 1, diatonicOffset: 10, hand: 'right' },
     { code: 'Period', char: '.', qwertyChar: '.', width: 1, diatonicOffset: 11, finger: '1', hand: 'right' },
     { code: 'Slash', char: '/', qwertyChar: '/', width: 1, diatonicOffset: 12, finger: '-', hand: 'right' },
-    { code: 'ShiftRight', char: 'shift', qwertyChar: 'shift', label: 'shift', width: 2.75, isModifier: true, hand: 'right' }
+    { code: 'ShiftRight', char: 'shift', qwertyChar: 'shift', label: 'shift [oct +]', width: 2.75, isModifier: true, hand: 'right' }
   ],
 
   // row 4: sustain damper pedal
@@ -114,9 +114,9 @@ const RAW_KEYBOARD_TEMPLATE = [
   ]
 ];
 
-export function generateKeyboardRows(homePositionId = 'c4') {
+export function generateKeyboardRows(homePositionId = 'c4', octaveShift = 0) {
   const pos = HOME_POSITIONS.find((p) => p.id === homePositionId) || HOME_POSITIONS[0];
-  const rootStep = pos.rootStep;
+  const rootStep = pos.rootStep + (octaveShift * 7);
 
   return RAW_KEYBOARD_TEMPLATE.map((row) =>
     row.map((key) => {
@@ -141,7 +141,7 @@ export function generateKeyboardRows(homePositionId = 'c4') {
   );
 }
 
-export const KEYBOARD_ROWS = generateKeyboardRows('c4');
+export const KEYBOARD_ROWS = generateKeyboardRows('c4', 0);
 export const ALL_KEYS = KEYBOARD_ROWS.flat();
 export const KEY_BY_CODE = new Map(ALL_KEYS.map((k) => [k.code, k]));
 export const KEY_BY_CHAR = new Map(ALL_KEYS.map((k) => [k.char.toLowerCase(), k]));

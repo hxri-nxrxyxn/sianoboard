@@ -4,6 +4,7 @@
   let {
     layout = 'colemak',
     homePosition = 'c4',
+    octaveShift = 0,
     showFingerGuides = true,
     volume = 0.7,
     touchCurve = 'normal',
@@ -11,6 +12,7 @@
     onclose,
     onlayoutchange,
     onhomepositionchange,
+    onoctavechange,
     onfingerguideschange,
     onvolumechange,
     ontouchchange,
@@ -22,6 +24,7 @@
   const SETTINGS = [
     { id: 'layout', label: 'layout' },
     { id: 'homePosition', label: 'home position' },
+    { id: 'octave', label: 'octave shift' },
     { id: 'fingerGuides', label: 'finger guides' },
     { id: 'volume', label: 'volume' },
     { id: 'touch', label: 'touch response' },
@@ -30,6 +33,10 @@
 
   let currentHomePositionLabel = $derived(
     HOME_POSITIONS.find((p) => p.id === homePosition)?.label || 'c major (c4)'
+  );
+
+  let currentOctaveLabel = $derived(
+    octaveShift === 0 ? '0 (normal)' : (octaveShift > 0 ? `+${octaveShift}` : `${octaveShift}`)
   );
 
   function handleKeyDown(e) {
@@ -73,25 +80,29 @@
       const next = layout === 'colemak' ? 'qwerty' : 'colemak';
       onlayoutchange?.(next);
     } else if (selectedIndex === 1) {
-      // 2. Home Position: c major, g major, f major, d, a minor, bass c, treble c
+      // 2. Home Position
       const currentIdx = HOME_POSITIONS.findIndex((p) => p.id === homePosition);
       const nextIdx = (currentIdx + direction + HOME_POSITIONS.length) % HOME_POSITIONS.length;
       onhomepositionchange?.(HOME_POSITIONS[nextIdx].id);
     } else if (selectedIndex === 2) {
-      // 3. Finger guides: on / off
-      onfingerguideschange?.(!showFingerGuides);
+      // 3. Octave shift: -2 to +2
+      const nextOct = Math.max(-2, Math.min(2, octaveShift + direction));
+      onoctavechange?.(nextOct);
     } else if (selectedIndex === 3) {
-      // 4. Volume
+      // 4. Finger guides: on / off
+      onfingerguideschange?.(!showFingerGuides);
+    } else if (selectedIndex === 4) {
+      // 5. Volume
       const nextVol = Math.max(0, Math.min(1, +(volume + direction * 0.1).toFixed(1)));
       onvolumechange?.(nextVol);
-    } else if (selectedIndex === 4) {
-      // 5. Touch dynamics
+    } else if (selectedIndex === 5) {
+      // 6. Touch dynamics
       const touchModes = ['normal', 'intimate', 'concert'];
       const currentIdx = touchModes.indexOf(touchCurve);
       const nextIdx = (currentIdx + direction + touchModes.length) % touchModes.length;
       ontouchchange?.(touchModes[nextIdx]);
-    } else if (selectedIndex === 5) {
-      // 6. Reverb
+    } else if (selectedIndex === 6) {
+      // 7. Reverb
       onreverbchange?.(!reverbOn);
     }
   }
@@ -151,7 +162,7 @@
         </div>
       </button>
 
-      <!-- 3. Finger Guides -->
+      <!-- 3. Octave Shift -->
       <button
         type="button"
         class="setting-row"
@@ -160,14 +171,14 @@
       >
         <div class="row-left">
           <span class="cursor">{selectedIndex === 2 ? '>' : ' '}</span>
-          <span class="setting-label">finger guides</span>
+          <span class="setting-label">octave shift</span>
         </div>
         <div class="row-right">
-          <span class="setting-val">{showFingerGuides ? 'on' : 'off'}</span>
+          <span class="setting-val">{currentOctaveLabel}</span>
         </div>
       </button>
 
-      <!-- 4. Volume -->
+      <!-- 4. Finger Guides -->
       <button
         type="button"
         class="setting-row"
@@ -176,14 +187,14 @@
       >
         <div class="row-left">
           <span class="cursor">{selectedIndex === 3 ? '>' : ' '}</span>
-          <span class="setting-label">volume</span>
+          <span class="setting-label">finger guides</span>
         </div>
         <div class="row-right">
-          <span class="setting-val">{Math.round(volume * 100)}%</span>
+          <span class="setting-val">{showFingerGuides ? 'on' : 'off'}</span>
         </div>
       </button>
 
-      <!-- 5. Touch Dynamics -->
+      <!-- 5. Volume -->
       <button
         type="button"
         class="setting-row"
@@ -192,14 +203,14 @@
       >
         <div class="row-left">
           <span class="cursor">{selectedIndex === 4 ? '>' : ' '}</span>
-          <span class="setting-label">touch response</span>
+          <span class="setting-label">volume</span>
         </div>
         <div class="row-right">
-          <span class="setting-val">{touchCurve}</span>
+          <span class="setting-val">{Math.round(volume * 100)}%</span>
         </div>
       </button>
 
-      <!-- 6. Hall Reverb -->
+      <!-- 6. Touch Dynamics -->
       <button
         type="button"
         class="setting-row"
@@ -208,6 +219,22 @@
       >
         <div class="row-left">
           <span class="cursor">{selectedIndex === 5 ? '>' : ' '}</span>
+          <span class="setting-label">touch response</span>
+        </div>
+        <div class="row-right">
+          <span class="setting-val">{touchCurve}</span>
+        </div>
+      </button>
+
+      <!-- 7. Hall Reverb -->
+      <button
+        type="button"
+        class="setting-row"
+        class:selected={selectedIndex === 6}
+        onclick={() => { selectedIndex = 6; changeSetting(1); }}
+      >
+        <div class="row-left">
+          <span class="cursor">{selectedIndex === 6 ? '>' : ' '}</span>
           <span class="setting-label">hall reverb</span>
         </div>
         <div class="row-right">

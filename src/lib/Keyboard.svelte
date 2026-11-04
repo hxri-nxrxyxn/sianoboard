@@ -6,17 +6,29 @@
   let {
     layout = 'colemak',
     homePosition = 'c4',
+    octaveShift = 0,
     showFingerGuides = true,
-    disabled = false
+    disabled = false,
+    onchangeoctave
   } = $props();
 
   let activeKeys = $state({});
 
-  let rows = $derived(generateKeyboardRows(homePosition));
+  let rows = $derived(generateKeyboardRows(homePosition, octaveShift));
   let keyByCode = $derived(new Map(rows.flat().map((k) => [k.code, k])));
 
   function pressKey(key) {
     if (!key || disabled) return;
+
+    if (key.code === 'CapsLock') {
+      onchangeoctave?.(-1);
+      return;
+    }
+
+    if (key.code === 'ShiftLeft' || key.code === 'ShiftRight') {
+      onchangeoctave?.(1);
+      return;
+    }
 
     if (key.isSustainPedal || key.code === 'Space') {
       sound.setSustainPedal(true);
@@ -31,6 +43,10 @@
 
   function releaseKey(key) {
     if (!key) return;
+
+    if (key.code === 'CapsLock' || key.code === 'ShiftLeft' || key.code === 'ShiftRight') {
+      return;
+    }
 
     if (key.isSustainPedal || key.code === 'Space') {
       sound.setSustainPedal(false);
@@ -54,6 +70,24 @@
     // Do not capture Escape key so it can open settings modal
     if (event.key === 'Escape' || event.code === 'Escape' || event.key === 'Esc') return;
 
+    // CapsLock: shift octave down (-1)
+    if (event.code === 'CapsLock') {
+      event.preventDefault();
+      if (!event.repeat) {
+        onchangeoctave?.(-1);
+      }
+      return;
+    }
+
+    // Shift: shift octave up (+1)
+    if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+      event.preventDefault();
+      if (!event.repeat) {
+        onchangeoctave?.(1);
+      }
+      return;
+    }
+
     const matchedKey = keyByCode.get(event.code);
     if (matchedKey) {
       if (['Space', 'Tab', 'Slash', 'Backspace', 'Quote'].includes(event.code)) {
@@ -65,6 +99,7 @@
 
   function handleKeyUp(event) {
     if (event.key === 'Escape' || event.code === 'Escape' || event.key === 'Esc') return;
+    if (event.code === 'CapsLock' || event.code === 'ShiftLeft' || event.code === 'ShiftRight') return;
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName)) return;
 
     const matchedKey = keyByCode.get(event.code);

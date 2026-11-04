@@ -350,6 +350,16 @@ class SoundEngine {
       if (voice.panner) voice.panner.disconnect();
     }, (releaseTime + 0.06) * 1000);
   }
+
+  stopAllVoices() {
+    if (!this.ctx) return;
+    const t = this.ctx.currentTime;
+    for (const keyId of this.activeVoices.keys()) {
+      this.releaseVoice(keyId, t);
+    }
+    this.activeVoices.clear();
+    this.sustainedVoices.clear();
+  }
 }
 
 export const sound = new SoundEngine();
