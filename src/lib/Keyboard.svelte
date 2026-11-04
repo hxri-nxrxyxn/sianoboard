@@ -5,10 +5,10 @@
 
   let {
     layout = 'colemak',
-    homePosition = 'c4',
+    homePosition = 'default',
     octaveShift = 0,
     noteShift = 0,
-    showFingerGuides = true,
+    showFingerGuides = false,
     disabled = false,
     onchangeoctave,
     onchangenoteshift
@@ -16,7 +16,7 @@
 
   let activeKeys = $state({});
 
-  let rows = $derived(generateKeyboardRows(homePosition, octaveShift, noteShift));
+  let rows = $derived(generateKeyboardRows(octaveShift, noteShift));
   let keyByCode = $derived(new Map(rows.flat().map((k) => [k.code, k])));
 
   function pressKey(key) {

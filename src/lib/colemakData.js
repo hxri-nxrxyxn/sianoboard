@@ -1,16 +1,9 @@
 // colemak completely sequential isomorphic piano layout
-// every row flows continuously and sequentially from left to right:
-// c -> d -> e -> f -> g -> a -> b -> c -> d -> e -> f -> g -> a -> b...
+// default base tuning: -2 octaves and +6 note shift (rootStep = 20)
+export const DEFAULT_ROOT_STEP = 20;
 
 export const HOME_POSITIONS = [
-  { id: 'c4', label: 'c major (c4)', rootStep: 28 },
-  { id: 'middle-c', label: 'middle c position', rootStep: 24 },
-  { id: 'g4', label: 'g major (g4)', rootStep: 32 },
-  { id: 'f4', label: 'f major (f4)', rootStep: 31 },
-  { id: 'd4', label: 'd position (d4)', rootStep: 29 },
-  { id: 'a4', label: 'a minor (a4)', rootStep: 33 },
-  { id: 'c3', label: 'bass c (c3)', rootStep: 21 },
-  { id: 'c5', label: 'treble c (c5)', rootStep: 35 }
+  { id: 'default', label: 'default', rootStep: DEFAULT_ROOT_STEP }
 ];
 
 const DIATONIC_INTERVALS = [0, 2, 4, 5, 7, 9, 11]; // C, D, E, F, G, A, B
@@ -115,9 +108,18 @@ const RAW_KEYBOARD_TEMPLATE = [
   ]
 ];
 
-export function generateKeyboardRows(homePositionId = 'c4', octaveShift = 0, noteShift = 0) {
-  const pos = HOME_POSITIONS.find((p) => p.id === homePositionId) || HOME_POSITIONS[0];
-  const rootStep = pos.rootStep + (octaveShift * 7) + noteShift;
+export function generateKeyboardRows(arg1 = 0, arg2 = 0, arg3 = 0) {
+  let octaveShift = 0;
+  let noteShift = 0;
+  if (typeof arg1 === 'number') {
+    octaveShift = arg1;
+    noteShift = typeof arg2 === 'number' ? arg2 : 0;
+  } else {
+    octaveShift = typeof arg2 === 'number' ? arg2 : 0;
+    noteShift = typeof arg3 === 'number' ? arg3 : 0;
+  }
+
+  const rootStep = DEFAULT_ROOT_STEP + (octaveShift * 7) + noteShift;
 
   return RAW_KEYBOARD_TEMPLATE.map((row) =>
     row.map((key) => {
@@ -142,7 +144,7 @@ export function generateKeyboardRows(homePositionId = 'c4', octaveShift = 0, not
   );
 }
 
-export const KEYBOARD_ROWS = generateKeyboardRows('c4', 0);
+export const KEYBOARD_ROWS = generateKeyboardRows(0, 0);
 export const ALL_KEYS = KEYBOARD_ROWS.flat();
 export const KEY_BY_CODE = new Map(ALL_KEYS.map((k) => [k.code, k]));
 export const KEY_BY_CHAR = new Map(ALL_KEYS.map((k) => [k.char.toLowerCase(), k]));
