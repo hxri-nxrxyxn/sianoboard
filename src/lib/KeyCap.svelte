@@ -15,16 +15,19 @@
   );
 
   function handlePointerDown(e) {
+    if (keyData.isDisabled) return;
     e.preventDefault();
     ontapdown?.(keyData);
   }
 
   function handlePointerUp(e) {
+    if (keyData.isDisabled) return;
     e.preventDefault();
     ontapup?.(keyData);
   }
 
   function handlePointerLeave(e) {
+    if (keyData.isDisabled) return;
     e.preventDefault();
     if (isPressed) {
       ontapup?.(keyData);
@@ -35,7 +38,8 @@
 <button
   type="button"
   class="keycap"
-  class:pressed={isPressed}
+  class:pressed={isPressed && !keyData.isDisabled}
+  class:disabled-key={keyData.isDisabled}
   class:modifier={keyData.isModifier}
   class:spacebar={keyData.isSustainPedal}
   style:--key-width-units={keyData.width}
@@ -43,19 +47,20 @@
   onpointerup={handlePointerUp}
   onpointerleave={handlePointerLeave}
   onpointercancel={handlePointerLeave}
-  aria-label={keyData.noteName ? `${displayedChar} ${keyData.noteName}` : displayedChar}
+  aria-label={keyData.isDisabled ? `${displayedChar} (disabled)` : (keyData.noteName ? `${displayedChar} ${keyData.noteName}` : displayedChar)}
+  disabled={keyData.isDisabled}
   data-code={keyData.code}
 >
   <div class="keycap-surface">
     <!-- Top: Small Note Legend (left) and High-Contrast Hand Finger Position (right) -->
     <div class="keycap-top">
-      {#if keyData.noteName}
+      {#if !keyData.isDisabled && keyData.noteName}
         <span class="note-legend">{keyData.noteName}</span>
       {:else}
         <span></span>
       {/if}
 
-      {#if showFingerGuides && keyData.finger}
+      {#if !keyData.isDisabled && showFingerGuides && keyData.finger}
         <span class="finger-legend">{keyData.finger}</span>
       {/if}
     </div>
@@ -65,7 +70,7 @@
       <span class="main-char">{displayedChar}</span>
 
       <!-- Tactile homing nub for index keys -->
-      {#if keyData.hasNub}
+      {#if keyData.hasNub && !keyData.isDisabled}
         <span class="homing-nub"></span>
       {/if}
     </div>
@@ -130,6 +135,25 @@
 
   .keycap.pressed .homing-nub {
     background: var(--key-active-text);
+  }
+
+  /* Disabled gutter key (Colemak j, b, h, 7) */
+  .keycap.disabled-key {
+    background: #080808;
+    border-color: #1a1a1a;
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.38;
+  }
+
+  .keycap.disabled-key .keycap-surface {
+    background: #0b0b0b;
+    color: #383838;
+  }
+
+  .keycap.disabled-key .main-char {
+    color: #383838;
+    font-weight: 500;
   }
 
   /* Top row: Note name on left, Finger indicator badge on right */

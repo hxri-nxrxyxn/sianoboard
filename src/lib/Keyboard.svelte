@@ -18,7 +18,7 @@
   let keyByCode = $derived(new Map(rows.flat().map((k) => [k.code, k])));
 
   function pressKey(key) {
-    if (!key || disabled) return;
+    if (!key || disabled || key.isDisabled) return;
 
     if (key.code === 'CapsLock') {
       onchangeoctave?.(-1);
@@ -42,7 +42,7 @@
   }
 
   function releaseKey(key) {
-    if (!key) return;
+    if (!key || key.isDisabled) return;
 
     if (key.code === 'CapsLock' || key.code === 'ShiftLeft' || key.code === 'ShiftRight') {
       return;
@@ -90,6 +90,8 @@
 
     const matchedKey = keyByCode.get(event.code);
     if (matchedKey) {
+      if (matchedKey.isDisabled) return;
+
       if (['Space', 'Tab', 'Slash', 'Backspace', 'Quote'].includes(event.code)) {
         event.preventDefault();
       }
@@ -104,6 +106,8 @@
 
     const matchedKey = keyByCode.get(event.code);
     if (matchedKey) {
+      if (matchedKey.isDisabled) return;
+
       if (['Space', 'Tab', 'Slash', 'Backspace', 'Quote'].includes(event.code)) {
         event.preventDefault();
       }

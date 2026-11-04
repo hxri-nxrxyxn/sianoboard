@@ -42,7 +42,7 @@ const RAW_KEYBOARD_TEMPLATE = [
     { code: 'Digit4', char: '4', qwertyChar: '4', width: 1, diatonicOffset: 11, hand: 'left' },
     { code: 'Digit5', char: '5', qwertyChar: '5', width: 1, diatonicOffset: 12, hand: 'left' },
     { code: 'Digit6', char: '6', qwertyChar: '6', width: 1, diatonicOffset: 13, hand: 'left' },
-    { code: 'Digit7', char: '7', qwertyChar: '7', width: 1, diatonicOffset: 14, hand: 'right' },
+    { code: 'Digit7', char: '7', qwertyChar: '7', width: 1, isDisabled: true, hand: 'center' },
     { code: 'Digit8', char: '8', qwertyChar: '8', width: 1, diatonicOffset: 15, hand: 'right' },
     { code: 'Digit9', char: '9', qwertyChar: '9', width: 1, diatonicOffset: 16, hand: 'right' },
     { code: 'Digit0', char: '0', qwertyChar: '0', width: 1, diatonicOffset: 17, hand: 'right' },
@@ -59,7 +59,7 @@ const RAW_KEYBOARD_TEMPLATE = [
     { code: 'KeyE', char: 'f', qwertyChar: 'e', width: 1, diatonicOffset: 3, hand: 'left' },
     { code: 'KeyR', char: 'p', qwertyChar: 'r', width: 1, diatonicOffset: 4, hand: 'left' },
     { code: 'KeyT', char: 'g', qwertyChar: 't', width: 1, diatonicOffset: 5, hand: 'left' },
-    { code: 'KeyY', char: 'j', qwertyChar: 'y', width: 1, diatonicOffset: 6, hand: 'left' },
+    { code: 'KeyY', char: 'j', qwertyChar: 'y', width: 1, isDisabled: true, hand: 'center' },
     { code: 'KeyU', char: 'l', qwertyChar: 'u', width: 1, diatonicOffset: 7, hand: 'right' },
     { code: 'KeyI', char: 'u', qwertyChar: 'i', width: 1, diatonicOffset: 8, hand: 'right' },
     { code: 'KeyO', char: 'y', qwertyChar: 'o', width: 1, diatonicOffset: 9, hand: 'right' },
@@ -77,7 +77,7 @@ const RAW_KEYBOARD_TEMPLATE = [
     { code: 'KeyD', char: 's', qwertyChar: 'd', width: 1, diatonicOffset: 12, hand: 'left' },
     { code: 'KeyF', char: 't', qwertyChar: 'f', width: 1, diatonicOffset: 13, hasNub: true, hand: 'left' },
     { code: 'KeyG', char: 'd', qwertyChar: 'g', width: 1, diatonicOffset: 14, hand: 'left' },
-    { code: 'KeyH', char: 'h', qwertyChar: 'h', width: 1, diatonicOffset: 15, hand: 'left' },
+    { code: 'KeyH', char: 'h', qwertyChar: 'h', width: 1, isDisabled: true, hand: 'center' },
     { code: 'KeyJ', char: 'n', qwertyChar: 'j', width: 1, diatonicOffset: 16, hasNub: true, hand: 'right' },
     { code: 'KeyK', char: 'e', qwertyChar: 'k', width: 1, diatonicOffset: 17, hand: 'right' },
     { code: 'KeyL', char: 'i', qwertyChar: 'l', width: 1, diatonicOffset: 18, hand: 'right' },
@@ -93,7 +93,7 @@ const RAW_KEYBOARD_TEMPLATE = [
     { code: 'KeyX', char: 'x', qwertyChar: 'x', width: 1, diatonicOffset: 4, hand: 'left' },
     { code: 'KeyC', char: 'c', qwertyChar: 'c', width: 1, diatonicOffset: 5, hand: 'left' },
     { code: 'KeyV', char: 'v', qwertyChar: 'v', width: 1, diatonicOffset: 6, hand: 'left' },
-    { code: 'KeyB', char: 'b', qwertyChar: 'b', width: 1, diatonicOffset: 7, hand: 'left' },
+    { code: 'KeyB', char: 'b', qwertyChar: 'b', width: 1, isDisabled: true, hand: 'center' },
     { code: 'KeyN', char: 'k', qwertyChar: 'n', width: 1, diatonicOffset: 8, hand: 'right' },
     { code: 'KeyM', char: 'm', qwertyChar: 'm', width: 1, diatonicOffset: 9, hand: 'right' },
     { code: 'Comma', char: ',', qwertyChar: ',', width: 1, diatonicOffset: 10, hand: 'right' },
@@ -121,7 +121,7 @@ export function generateKeyboardRows(homePositionId = 'c4', octaveShift = 0) {
 
   return RAW_KEYBOARD_TEMPLATE.map((row) =>
     row.map((key) => {
-      if (typeof key.diatonicOffset === 'number') {
+      if (!key.isDisabled && typeof key.diatonicOffset === 'number') {
         const midi = diatonicStepToMidi(rootStep + key.diatonicOffset);
         const freq = midiToFreq(midi);
         const noteName = midiToNoteName(midi);
