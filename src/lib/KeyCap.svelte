@@ -47,15 +47,17 @@
   onpointerup={handlePointerUp}
   onpointerleave={handlePointerLeave}
   onpointercancel={handlePointerLeave}
-  aria-label={keyData.isDisabled ? `${displayedChar} (disabled)` : (keyData.noteName ? `${displayedChar} ${keyData.noteName}` : displayedChar)}
+  aria-label={keyData.isDisabled ? `${displayedChar} (disabled)` : (keyData.noteName ? `${displayedChar} ${keyData.noteName}` : (keyData.subLegend ? `${displayedChar} ${keyData.subLegend}` : displayedChar))}
   disabled={keyData.isDisabled}
   data-code={keyData.code}
 >
   <div class="keycap-surface">
-    <!-- Top: Small Note Legend (left) and High-Contrast Hand Finger Position (right) -->
+    <!-- Top: Small Note Legend / Sublegend (left) and High-Contrast Hand Finger Position (right) -->
     <div class="keycap-top">
       {#if !keyData.isDisabled && keyData.noteName}
         <span class="note-legend">{keyData.noteName}</span>
+      {:else if !keyData.isDisabled && keyData.subLegend}
+        <span class="note-legend">{keyData.subLegend}</span>
       {:else}
         <span></span>
       {/if}

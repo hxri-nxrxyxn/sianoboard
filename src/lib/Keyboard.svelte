@@ -20,12 +20,12 @@
   function pressKey(key) {
     if (!key || disabled || key.isDisabled) return;
 
-    if (key.code === 'CapsLock') {
+    if (key.code === 'ShiftLeft') {
       onchangeoctave?.(-1);
       return;
     }
 
-    if (key.code === 'ShiftLeft' || key.code === 'ShiftRight') {
+    if (key.code === 'ShiftRight') {
       onchangeoctave?.(1);
       return;
     }
@@ -44,7 +44,7 @@
   function releaseKey(key) {
     if (!key || key.isDisabled) return;
 
-    if (key.code === 'CapsLock' || key.code === 'ShiftLeft' || key.code === 'ShiftRight') {
+    if (key.code === 'ShiftLeft' || key.code === 'ShiftRight') {
       return;
     }
 
@@ -70,8 +70,8 @@
     // Do not capture Escape key so it can open settings modal
     if (event.key === 'Escape' || event.code === 'Escape' || event.key === 'Esc') return;
 
-    // CapsLock: shift octave down (-1)
-    if (event.code === 'CapsLock') {
+    // ShiftLeft: shift octave down (-1)
+    if (event.code === 'ShiftLeft') {
       event.preventDefault();
       if (!event.repeat) {
         onchangeoctave?.(-1);
@@ -79,8 +79,8 @@
       return;
     }
 
-    // Shift: shift octave up (+1)
-    if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+    // ShiftRight: shift octave up (+1)
+    if (event.code === 'ShiftRight') {
       event.preventDefault();
       if (!event.repeat) {
         onchangeoctave?.(1);
@@ -101,7 +101,7 @@
 
   function handleKeyUp(event) {
     if (event.key === 'Escape' || event.code === 'Escape' || event.key === 'Esc') return;
-    if (event.code === 'CapsLock' || event.code === 'ShiftLeft' || event.code === 'ShiftRight') return;
+    if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') return;
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName)) return;
 
     const matchedKey = keyByCode.get(event.code);

@@ -71,7 +71,7 @@ const RAW_KEYBOARD_TEMPLATE = [
 
   // row 2: tier 2 home / caps lock row (f5 - b6)
   [
-    { code: 'CapsLock', char: 'caps', qwertyChar: 'caps', label: 'caps [oct -]', width: 1.75, isModifier: true, hand: 'left' },
+    { code: 'CapsLock', char: 'caps', qwertyChar: 'caps', label: 'caps', width: 1.75, isModifier: true, isDisabled: true, hand: 'left' },
     { code: 'KeyA', char: 'a', qwertyChar: 'a', width: 1, diatonicOffset: 10, hand: 'left' },
     { code: 'KeyS', char: 'r', qwertyChar: 's', width: 1, diatonicOffset: 11, hand: 'left' },
     { code: 'KeyD', char: 's', qwertyChar: 'd', width: 1, diatonicOffset: 12, hand: 'left' },
@@ -88,7 +88,7 @@ const RAW_KEYBOARD_TEMPLATE = [
 
   // row 3: tier 1 bottom / shift row (f4 - a5)
   [
-    { code: 'ShiftLeft', char: 'shift', qwertyChar: 'shift', label: 'shift [oct +]', width: 2.25, isModifier: true, hand: 'left' },
+    { code: 'ShiftLeft', char: 'shift', qwertyChar: 'shift', label: 'shift', subLegend: 'oct -', width: 2.25, isModifier: true, hand: 'left' },
     { code: 'KeyZ', char: 'z', qwertyChar: 'z', width: 1, diatonicOffset: 3, hand: 'left' },
     { code: 'KeyX', char: 'x', qwertyChar: 'x', width: 1, diatonicOffset: 4, hand: 'left' },
     { code: 'KeyC', char: 'c', qwertyChar: 'c', width: 1, diatonicOffset: 5, hand: 'left' },
@@ -99,19 +99,19 @@ const RAW_KEYBOARD_TEMPLATE = [
     { code: 'Comma', char: ',', qwertyChar: ',', width: 1, diatonicOffset: 10, hand: 'right' },
     { code: 'Period', char: '.', qwertyChar: '.', width: 1, diatonicOffset: 11, hand: 'right' },
     { code: 'Slash', char: '/', qwertyChar: '/', width: 1, diatonicOffset: 12, hand: 'right' },
-    { code: 'ShiftRight', char: 'shift', qwertyChar: 'shift', label: 'shift [oct +]', width: 2.75, isModifier: true, hand: 'right' }
+    { code: 'ShiftRight', char: 'shift', qwertyChar: 'shift', label: 'shift', subLegend: 'oct +', width: 2.75, isModifier: true, hand: 'right' }
   ],
 
   // row 4: sustain damper pedal
   [
-    { code: 'ControlLeft', char: 'ctrl', qwertyChar: 'ctrl', label: 'ctrl', width: 1.25, isModifier: true, hand: 'left' },
-    { code: 'AltLeft', char: 'opt', qwertyChar: 'opt', label: 'opt', width: 1.25, isModifier: true, hand: 'left' },
-    { code: 'MetaLeft', char: 'cmd', qwertyChar: 'cmd', label: 'cmd', width: 1.25, isModifier: true, hand: 'left' },
+    { code: 'ControlLeft', char: 'ctrl', qwertyChar: 'ctrl', label: 'ctrl', width: 1.25, isModifier: true, isDisabled: true, hand: 'left' },
+    { code: 'AltLeft', char: 'opt', qwertyChar: 'opt', label: 'opt', width: 1.25, isModifier: true, isDisabled: true, hand: 'left' },
+    { code: 'MetaLeft', char: 'cmd', qwertyChar: 'cmd', label: 'cmd', width: 1.25, isModifier: true, isDisabled: true, hand: 'left' },
     { code: 'Space', char: 'space', qwertyChar: 'space', label: 'space', width: 6.25, isSustainPedal: true },
-    { code: 'MetaRight', char: 'cmd', qwertyChar: 'cmd', label: 'cmd', width: 1.25, isModifier: true, hand: 'right' },
-    { code: 'AltRight', char: 'opt', qwertyChar: 'opt', label: 'opt', width: 1.25, isModifier: true, hand: 'right' },
-    { code: 'ContextMenu', char: 'fn', qwertyChar: 'fn', label: 'fn', width: 1.25, isModifier: true, hand: 'right' },
-    { code: 'ControlRight', char: 'ctrl', qwertyChar: 'ctrl', label: 'ctrl', width: 1.25, isModifier: true, hand: 'right' }
+    { code: 'MetaRight', char: 'cmd', qwertyChar: 'cmd', label: 'cmd', width: 1.25, isModifier: true, isDisabled: true, hand: 'right' },
+    { code: 'AltRight', char: 'opt', qwertyChar: 'opt', label: 'opt', width: 1.25, isModifier: true, isDisabled: true, hand: 'right' },
+    { code: 'ContextMenu', char: 'fn', qwertyChar: 'fn', label: 'fn', width: 1.25, isModifier: true, isDisabled: true, hand: 'right' },
+    { code: 'ControlRight', char: 'ctrl', qwertyChar: 'ctrl', label: 'ctrl', width: 1.25, isModifier: true, isDisabled: true, hand: 'right' }
   ]
 ];
 
